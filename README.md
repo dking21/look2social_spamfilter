@@ -8,5 +8,4 @@ The current data collection tool of Look2Social cannot filter out spam messages.
 
 Data Understanding:
 
-Data sets were provided by look2social[screenshot]. It is an excel file that contains the data of social media posts related to its client and client’s competitors. There are several columns such as posting date, content, uploader, hashtag and more. This data is a mixture of both spam and non-spam posts, and spam posts are not labeled. 
-
+Data sets were provided by look2social[screenshot]. It is an excel file that contains the data of social media posts related to its client and client’s competitors. There are several columns such as posting date, content, uploader, hashtag and more. This data is a mixture of both spam and non-spam posts, and spam posts are not labeled. By analyzing certain pattern and eyeballing, every row in the dataset got labeled.
