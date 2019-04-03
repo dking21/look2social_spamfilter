@@ -41,8 +41,35 @@ def join_sent_ngrams(input_tokens, n):
     return(ret_list)
 
 def text_to_tfidf(df):
+    '''
+    1. remove accent from text
+    2. tokenize word
+    3. stem word
+    4. ngram word
+    5. TFIDF vectorize word, return it as a matrix.
+    '''
     df2 = df
     df2['text_without_accent'] = df2['text'].apply(remove_accents)
+    df2['text_word_tokens'] = df2['text_without_accent'].apply(word_tokenize)
+    df2['processed_text'] = df2['text_without_accent'].apply(text_process)
+    stemmer_porter = PorterStemmer()
+    df2['stemmed'] = df2['processed_text'].apply(lambda x: list(map(stemmer_porter.stem, x)))
+    df2['ngrammed'] = list(map(lambda x : join_sent_ngrams(x, 3), df2['stemmed']))
+    bow_transformer = TfidfVectorizer(max_features=1000,analyzer=text_process).fit(df2['ngrammed'])
+    messages_bow = bow_transformer.transform(df2['ngrammed'])
+    tfidf_matrix = messages_bow.todense()
+    return tfidf_matrix
+
+def desc_to_tfidf(df):
+    '''
+    1. remove accent from text
+    2. tokenize word
+    3. stem word
+    4. ngram word
+    5. TFIDF vectorize word, return it as a matrix.
+    '''
+    df2 = df
+    df2['text_without_accent'] = df2['description'].apply(remove_accents)
     df2['text_word_tokens'] = df2['text_without_accent'].apply(word_tokenize)
     df2['processed_text'] = df2['text_without_accent'].apply(text_process)
     stemmer_porter = PorterStemmer()
