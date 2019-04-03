@@ -42,6 +42,8 @@ def feature_engineering(df):
     3. drop row where the language is not English
     4. drop irrelevant columns
     5. convert post created time with fourier transformation
+    6. create categorical column for the existence of description
+    7. fill NaN of description with empty string
     '''
     df2 = df
     for col in df.columns:
@@ -59,4 +61,6 @@ def feature_engineering(df):
     df4['time_float_sin'] = np.sin((df4['created_at_float']*2*np.pi)/24)
     df4['time_float_cos'] = np.cos((df4['created_at_float']*2*np.pi)/24)
     df4.drop('created_at_float',axis=1,inplace=True)
+    df4['is_description_none'] = df4['description'].isna()
+    df4['description'].fillna('',inplace=True)
     return df4
