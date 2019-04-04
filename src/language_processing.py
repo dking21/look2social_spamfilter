@@ -80,7 +80,7 @@ def desc_to_tfidf(df):
     tfidf_matrix = messages_bow.todense()
     return tfidf_matrix
 
-def to_tfidf(df,column_name):
+def to_tfidf(df,column_name,maximum_feature_number):
     '''
     0. unify the data type of selected column as string
     1. remove accent from text
@@ -97,7 +97,7 @@ def to_tfidf(df,column_name):
     stemmer_porter = PorterStemmer()
     df2['stemmed'] = df2['processed_text'].apply(lambda x: list(map(stemmer_porter.stem, x)))
     df2['ngrammed'] = list(map(lambda x : join_sent_ngrams(x, 3), df2['stemmed']))
-    bow_transformer = TfidfVectorizer(max_features=1000,analyzer=text_process).fit(df2['ngrammed'])
+    bow_transformer = TfidfVectorizer(max_features=maximum_feature_number,analyzer=text_process).fit(df2['ngrammed'])
     messages_bow = bow_transformer.transform(df2['ngrammed'])
     tfidf_matrix = messages_bow.todense()
     return tfidf_matrix
