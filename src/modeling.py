@@ -5,6 +5,8 @@ from sklearn.metrics import roc_auc_score
 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 
 def test_logistic_regressio(data,column):
     y = data[column]
@@ -48,4 +50,8 @@ def test_model(data,column,model):
     print(log_loss(y_test,y_pred))
     print("\n" + "AUC score of this model is" + "\n")
     print(roc_auc_score(y_test,y_predict))
+    print("\n" + "Coefficients of this model are" + "\n")
+    print(model.coef_)
+    print("\n" + "Most effective predictor was" + "\n")
+    print(X.columns[np.argmax(model.coef_)]
     return None
