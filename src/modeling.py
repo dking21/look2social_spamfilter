@@ -32,10 +32,12 @@ def test_logistic_regressio(data,column):
 
 def test_model(data,column,model):
     y = data[column]
-    X = data[['Docusign', 'onespan', 'signnow','adobe sign',
-                           'listed_count', 'statuses_count','followers_count',
-                           'favourites_count', 'friends_count','time_float_sin',
-                           'time_float_cos', 'is_description_none']]
+    X = data[['Docusign', 'onespan', 'signnow','adobe sign','listed_count', 'statuses_count','followers_count','favourites_count', 'friends_count','time_float_sin','time_float_cos', 'is_description_none','text-TF-IDF-0', 'text-TF-IDF-1', 'text-TF-IDF-2',
+       'text-TF-IDF-3', 'text-TF-IDF-4', 'text-TF-IDF-5', 'text-TF-IDF-6',
+       'text-TF-IDF-7', 'text-TF-IDF-8', 'text-TF-IDF-9', 'text-TF-IDF-10',
+       'text-TF-IDF-11', 'text-TF-IDF-12', 'text-TF-IDF-13', 'text-TF-IDF-14',
+       'text-TF-IDF-15', 'text-TF-IDF-16', 'text-TF-IDF-17', 'text-TF-IDF-18',
+       'text-TF-IDF-19']]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
     model = model()
     model.fit(X_train,y_train)
