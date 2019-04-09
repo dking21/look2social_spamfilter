@@ -9,9 +9,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 
 
-def test_model(data,column,model):
+def test_model(data,column,model,TFIDF_column):
     y = data[column]
-    X = data[['Docusign', 'onespan', 'signnow','adobe sign','listed_count', 'statuses_count','followers_count','favourites_count', 'friends_count','time_float_sin','time_float_cos', 'is_description_none'] + col_name_lst]
+    X = data[['Docusign', 'onespan', 'signnow','adobe sign','listed_count', 'statuses_count','followers_count','favourites_count', 'friends_count','time_float_sin','time_float_cos', 'is_description_none'] + TFIDF_column]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
     model = model()
     model.fit(X_train,y_train)
