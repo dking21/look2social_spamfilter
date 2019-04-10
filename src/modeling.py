@@ -140,3 +140,149 @@ def test_model3(data,column,model,TFIDF_column):
     #print(model.coef_)
     #print("\n" + "Most effective predictor was" + "\n")
     return None
+
+def test_model4(data,column,TFIDF_column):
+    data2 = data.sample(frac=1)
+    data2_training = data2[:16000]
+    data2_testing = data2[16000:]
+    y = data2_training[column]
+    X = data2_training[['Docusign', 'onespan', 'signnow','adobe sign','listed_count', 'statuses_count','followers_count','favourites_count', 'friends_count','time_float_sin','time_float_cos', 'is_description_none'] + TFIDF_column]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+    model = RandomForestClassifier(n_estimators=250)
+    kf = KFold(n_splits=5, shuffle=True)
+
+    ll_performance = []
+    auc_performance = []
+    acc_performance = []
+#kfold split on X_ (which is X_train of len 110)
+    for train_index, test_index in kf.split(X):
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        model.fit(X_train, y_train)
+        y_predict = model.predict(X_test)
+        y_pred = model.predict_proba(X_test)
+        log_ll = log_loss(y_test, y_pred)
+        ll_performance.append(log_ll)
+        auc = roc_auc_score(y_test,y_predict)
+        auc_performance.append(auc)
+        acc = accuracy_score(y_test,y_predict)
+        acc_performance.append(acc)
+        
+        
+    print("\n" + "Score summary for initial test (first 80% of data)" + "\n")
+    print("\n" + "Accuracy score of this model is" + "\n")
+    print(np.mean(acc_performance))
+    print("\n" + "Log-Loss score of this model is" + "\n")
+    print(np.mean(ll_performance))
+    print("\n" + "AUC score of this model is" + "\n")
+    print(np.mean(auc_performance))
+    print("\n")
+
+    y = data2_testing[column]
+    X = data2_testing[['Docusign', 'onespan', 'signnow','adobe sign','listed_count', 'statuses_count','followers_count','favourites_count', 'friends_count','time_float_sin','time_float_cos', 'is_description_none'] + TFIDF_column]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+    #model = model()
+    kf = KFold(n_splits=5, shuffle=True)
+
+    ll_performance = []
+    auc_performance = []
+    acc_performance = []
+#kfold split on X_ (which is X_train of len 110)
+    for train_index, test_index in kf.split(X):
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        model.fit(X_train, y_train)
+        y_predict = model.predict(X_test)
+        y_pred = model.predict_proba(X_test)
+        log_ll = log_loss(y_test, y_pred)
+        ll_performance.append(log_ll)
+        auc = roc_auc_score(y_test,y_predict)
+        auc_performance.append(auc)
+        acc = accuracy_score(y_test,y_predict)
+        acc_performance.append(acc)
+        
+        
+    print("\n" + "Score summary for final test (last 20% of data)" + "\n")
+    print("\n" + "Accuracy score of this model is" + "\n")
+    print(np.mean(acc_performance))
+    print("\n" + "Log-Loss score of this model is" + "\n")
+    print(np.mean(ll_performance))
+    print("\n" + "AUC score of this model is" + "\n")
+    print(np.mean(auc_performance))
+    #print("\n" + "Coefficients of this model are" + "\n")
+    #print(model.coef_)
+    #print("\n" + "Most effective predictor was" + "\n")
+    return None
+
+def test_model5(data,column,TFIDF_column):
+    data2 = data.sample(frac=1)
+    data2_training = data2[:16000]
+    data2_testing = data2[16000:]
+    y = data2_training[column]
+    X = data2_training[['Docusign', 'onespan', 'signnow','adobe sign','listed_count', 'statuses_count','followers_count','favourites_count', 'friends_count','time_float_sin','time_float_cos', 'is_description_none'] + TFIDF_column]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+    model = GradientBoostingClassifier(subsample=0.5, learning_rate=0.01)
+    kf = KFold(n_splits=5, shuffle=True)
+
+    ll_performance = []
+    auc_performance = []
+    acc_performance = []
+#kfold split on X_ (which is X_train of len 110)
+    for train_index, test_index in kf.split(X):
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        model.fit(X_train, y_train)
+        y_predict = model.predict(X_test)
+        y_pred = model.predict_proba(X_test)
+        log_ll = log_loss(y_test, y_pred)
+        ll_performance.append(log_ll)
+        auc = roc_auc_score(y_test,y_predict)
+        auc_performance.append(auc)
+        acc = accuracy_score(y_test,y_predict)
+        acc_performance.append(acc)
+        
+        
+    print("\n" + "Score summary for initial test (first 80% of data)" + "\n")
+    print("\n" + "Accuracy score of this model is" + "\n")
+    print(np.mean(acc_performance))
+    print("\n" + "Log-Loss score of this model is" + "\n")
+    print(np.mean(ll_performance))
+    print("\n" + "AUC score of this model is" + "\n")
+    print(np.mean(auc_performance))
+    print("\n")
+
+    y = data2_testing[column]
+    X = data2_testing[['Docusign', 'onespan', 'signnow','adobe sign','listed_count', 'statuses_count','followers_count','favourites_count', 'friends_count','time_float_sin','time_float_cos', 'is_description_none'] + TFIDF_column]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+    #model = model()
+    kf = KFold(n_splits=5, shuffle=True)
+
+    ll_performance = []
+    auc_performance = []
+    acc_performance = []
+#kfold split on X_ (which is X_train of len 110)
+    for train_index, test_index in kf.split(X):
+        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
+        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        model.fit(X_train, y_train)
+        y_predict = model.predict(X_test)
+        y_pred = model.predict_proba(X_test)
+        log_ll = log_loss(y_test, y_pred)
+        ll_performance.append(log_ll)
+        auc = roc_auc_score(y_test,y_predict)
+        auc_performance.append(auc)
+        acc = accuracy_score(y_test,y_predict)
+        acc_performance.append(acc)
+        
+        
+    print("\n" + "Score summary for final test (last 20% of data)" + "\n")
+    print("\n" + "Accuracy score of this model is" + "\n")
+    print(np.mean(acc_performance))
+    print("\n" + "Log-Loss score of this model is" + "\n")
+    print(np.mean(ll_performance))
+    print("\n" + "AUC score of this model is" + "\n")
+    print(np.mean(auc_performance))
+    #print("\n" + "Coefficients of this model are" + "\n")
+    #print(model.coef_)
+    #print("\n" + "Most effective predictor was" + "\n")
+    return None
