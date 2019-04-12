@@ -148,7 +148,7 @@ def test_model4(data,column,TFIDF_column):
     y = data2_training[column]
     X = data2_training[['Docusign', 'onespan', 'signnow','adobe sign','listed_count', 'statuses_count','followers_count','favourites_count', 'friends_count','time_float_sin','time_float_cos', 'is_description_none'] + TFIDF_column]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-    model = RandomForestClassifier(n_estimators=250)
+    model = RandomForestClassifier(n_estimators=500)
     kf = KFold(n_splits=5, shuffle=True)
 
     ll_performance = []
@@ -212,7 +212,7 @@ def test_model4(data,column,TFIDF_column):
     #print("\n" + "Coefficients of this model are" + "\n")
     #print(model.coef_)
     #print("\n" + "Most effective predictor was" + "\n")
-    return None
+    return model
 
 def test_model5(data,column,TFIDF_column):
     data2 = data.sample(frac=1)
