@@ -66,3 +66,25 @@ def vectorize_desc(target_df, max_feature_number):
         target_df[col_name] = desc_tfidf_matrix[:, n]
         col_name_lst.append(col_name)
     return col_name_lst
+
+def vectorize_text2(target_df, max_feature_number):
+    vectorizer = TfidfVectorizer(stop_words='english', max_features = max_feature_number)
+    X = vectorizer.fit_transform(target_df['lemmed'])
+    text_tfidf_matrix = X.toarray()
+    col_name_lst = []
+    for n in range(text_tfidf_matrix.shape[1]):
+        col_name = f'text-TF-IDF-{n}'
+        target_df[col_name] = text_tfidf_matrix[:, n]
+        col_name_lst.append(col_name)
+    return col_name_lst, vectorizer
+
+def vectorize_desc2(target_df, max_feature_number):
+    vectorizer = TfidfVectorizer(stop_words='english', max_features = max_feature_number)
+    X = vectorizer.fit_transform(target_df['lemmed'])
+    desc_tfidf_matrix = X.toarray()
+    col_name_lst = []
+    for n in range(desc_tfidf_matrix.shape[1]):
+        col_name = f'desc-TF-IDF-{n}'
+        target_df[col_name] = desc_tfidf_matrix[:, n]
+        col_name_lst.append(col_name)
+    return col_name_lst, vectorizer
