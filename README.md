@@ -60,15 +60,30 @@ To handle large size of predictors, I used Amazon AWS EC2 for computation.
 
 I decided to evaluate the model by predicting marketing spam, which is most ambiguous and challenging spam to predict.
 
-Although logistic regression model showed decent log loss score, its AUC score was too low (0.502, which is almost guessing).  Random Forest model showed best log loss score and Gradient Boosting model showed best AUC score. I decided to go with Random Forest as it has an advantage of faster computation than gradient boosting (took ~3x of time for computation than RF) and the difference between two is not significant.
+I proceeded the evaluation with classification threshold of 0.5 (default value). Of course, I know it is not the ideal threshold value. However, Look2Social still did not decide their policy on filter strength so I decided to work with 0.5 at this point.
+
+Although logistic regression model showed decent log loss score, its AUC score was too low (0.502, which is almost guessing).  Random Forest model showed best log loss score (0.122) and Gradient Boosting model showed best AUC score(0.683). I decided to go with Random Forest as it has an advantage of faster computation than gradient boosting (took ~3x of time for computation than RF) and the difference between two is not significant.
+
+I tuned the random forest model to find ideal number of estimators, ended up with 500 which was the best performance in log loss score and AUC score.
+(other parameters like depth, min_sample leaf, min_sample split are also tuned but I cannot post it on here as the company did not allow me to do so.)
+
 
 Using random forest with 500 estimators, I evaluated the model for different spam criteria as well.
-It showed outstanding (almost perfect) classification against bot generated and corporate posted types. As they are fairly visible in terms of pattern and uniqueness, this performance was expected.
-It also showed decent classification result against hijack type. It was beyond my expectation as I thought it would be challenging as marketing spam.  Just as I expected, classifying marketing spam showed under-performance. One possible reason I can think of this is the lack of consistency during labeling marketing spam - it was one of topic that I had to eyeball for spam labeling but more ambiguous compared to hijack type. It would be worth to try once again with consistently labeled data.
+It showed outstanding (almost perfect) classification against bot generated(LL:0.038, AUC:0.987) and corporate posted(LL:0.027, AUC:0.985) types. As they are fairly visible in terms of pattern and uniqueness, this performance was expected.
+It also showed decent classification result against hijack type(LL:0.229, AUC:0.854). It was beyond my expectation as I thought it would be challenging as marketing spam. When I analyzed text features, there were words occurred frequently and these were strong guidance for hijack spam classification.   Just as I expected, classifying marketing spam showed under-performance(LL:0.122, AUC:0.655). One possible reason I can think of this is the lack of consistency during labeling marketing spam - it was one of topic that I had to eyeball for spam labeling but more ambiguous compared to hijack type. It would be worth to try once again with consistently labeled data.
 
 Each spam had different combination of important features. Based on each combination, I was able to draw important insights for Look2Social. As both text predictors and numerical/categorical predictors are included in the combinations, I concluded that using both parameters can result the great synergy in spam detection.
 
+### Deployment:
 
+I built a website to display the result of the classification. If you type in number n that is between 0 to 20000, it displays the data of row n and prediction probabilities for each type of spam. It used Brython and Pandas as the goal of this website was demonstrate some examples of spam and result of prediction on it, rather than performing filter work.
+
+
+### Post-Project:
+
+I built a generalized algorithm (in private repo) which could be used for any client at any industries.
+At the end of the project, I delivered the algorithm to Look2Social so it can use the algorithm to filter out spam Twitter post prior to consulting service for its future client.
+Look2Social will serve Microsoft as its new client, in addition to DocuSign. Depends on the performance of the algorithm, this project could be extended and the algorithm could be updated.
 
 References
 
